@@ -21,66 +21,63 @@ namespace TodoApi.Data.Repositories
             return new NpgsqlConnection(connexionString.ConnectionString);
         }
 
-        public async Task<IEnumerable<localizacion>> GetAllCars()
+        public async Task<IEnumerable<localizacion>> GetAllLocalizacion()
         {
             var db = dbConnection();
 
-            var sql = @"SELECT  * FROM public.localizacion";
+            var sql = @"SELECT * FROM public.localizacion";
 
             return await db.QueryAsync<localizacion>(sql, new { });
 
         }
 
-        public async Task<localizacion> GetCarDetails(int id)
+        public async Task<localizacion> GetLocalizacionDetails(string ciudad)
         {
             var db = dbConnection();
 
             //var sql = @"SELECT ciudad, longitud, latitud FROM public.localizacion WHERE ciudad = @Id";
             var sql = @"SELECT ciudad, longitud, latitud FROM public.localizacion WHERE ciudad = @ciudad";
 
-            return await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { Id = id });
+            return await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { ciudad = ciudad });
         }
 
-        public async Task<bool> InsertCar(Car car)
+        public async Task<bool> InsertLocalizacion(localizacion loc)
         {
             var db = dbConnection();
 
             var sql = @"
-                        INSERT INTO public.cars ( make, model, color, year, doors ) VALUES (@Make, @Model, @Color, @Year, @Doors)";
+                        INSERT INTO public.localizacion ( ciudad, latitud, longitud ) VALUES (@ciudad, @latitud, @longitud)";
 
-            var result = await db.ExecuteAsync(sql, new { car.Make, car.Model, car.Color, car.Year, car.Doors });
+            var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
             return result > 0;
         }
 
-        public async Task<bool> UpdateCar(Car car)
+        public async Task<bool> UpdateLocalizacion(localizacion loc)
         {
             var db = dbConnection();
 
-            var sql = @"
-                        UPDATE  public.cars
-                        SET make = @Make,
-                            model  =  @Model,
-                            color = Ccolor,
-                            year = @Year,
-                            doors = @Doors,
-                        WHERE id = @Id;
+            var sql = @"UPDATE  public.localizacion
+                        SET ciudad = @ciudad,
+                            latitud  = @latitud,
+                            longitud = @longitud,
+                        WHERE ciudad = @ciudad;
                         ";
 
-            var result = await db.ExecuteAsync(sql, new { car.Make, car.Model, car.Color, car.Year, car.Doors, car.Id });
+            var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
             return result > 0;
         }
 
-        public async Task<bool> DeleteCar(Car car)
+        public async Task<bool> DeleteLocalizacion(localizacion loc)
         {
             var db = dbConnection();
 
             var sql = @"
-                        DELETE FROM public.cars
-                        WHERE id = @Id
+                        DELETE FROM public.localizacion
+                        WHERE ciudad = @ciudad
                             
                         ";
 
-            var result = await db.ExecuteAsync(sql, new { Id = car.Id });
+            var result = await db.ExecuteAsync(sql, new { ciudad = loc.ciudad });
             return result > 0;
         }
 
