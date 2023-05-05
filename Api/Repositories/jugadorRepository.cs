@@ -31,6 +31,16 @@ namespace TodoApi.Data.Repositories
 
         }
 
+        public async Task<jugador> GetJugadorDetailsAll(string nombre_Jugador)
+        {
+            var db = dbConnection();
+
+     
+            var sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = @nombre_Jugador";
+
+            return await db.QueryFirstOrDefaultAsync<jugador>(sql, new { nombre_Jugador = nombre_Jugador });
+        }
+
         public async Task<int> GetJugadorDetails(string nombre_Jugador, string contraseña)
         {
             var db = dbConnection();

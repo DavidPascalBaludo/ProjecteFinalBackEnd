@@ -7,11 +7,19 @@ using TodoApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 //builder.Services.AddDbContext<PosgreSQLConfig>(opt =>
 //    opt.UseSqlServer(builder.Configuration.GetConnectionString("WebApiDatabase")));
 builder.Services.AddEndpointsApiExplorer();
-
 
 builder.Services.AddSingleton(builder.Services.AddDbContext<PosgreSQLConfig>(options =>
     options.UseSqlServer("WebApiDatabase")));
@@ -28,6 +36,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseCors("AllowAllOrigins"); // Agrega los encabezados CORS
 
 if (app.Environment.IsDevelopment())
 {

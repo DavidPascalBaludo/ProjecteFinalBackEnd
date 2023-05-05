@@ -29,6 +29,12 @@ namespace TodoApi.Controllers
             return Ok(await JugadorRepository.GetAllJugador());
         }
 
+        [HttpGet("{nombre_Jugador}")]
+        public async Task<IActionResult> GetJugadorDetailsAll(string nombre_Jugador)
+        {
+            return Ok(await JugadorRepository.GetJugadorDetailsAll(nombre_Jugador));
+        }
+
         [HttpGet("{nombre_Jugador},{contraseña}")]
         public async Task<IActionResult> GetJugadorDetails(string nombre_Jugador, string contraseña)
         {
