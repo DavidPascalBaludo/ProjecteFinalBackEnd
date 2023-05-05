@@ -24,13 +24,15 @@ namespace TodoApi.Controllers
         {
             this.RankingRepository = RankingRepository;
         }
+
+        //Http que devuelve los datos dentro de la tabla
         [HttpGet]
         public async Task<IActionResult> GetAllRanking()
         {
             return Ok(await RankingRepository.GetAllRanking());
         }
 
-
+        //Http que hace inserts
         [HttpPost]
         public async Task<IActionResult> CreateLocalizacion(ranking score)
         {
@@ -49,14 +51,12 @@ namespace TodoApi.Controllers
         }
 
 
+        //Http que borra
 
-
-        [HttpDelete("{ciudad}")]
-        public async Task<IActionResult> DeleteLocalizacion(string ciudad)
+        [HttpDelete("{nombre_Jugador}")]
+        public async Task<IActionResult> DeleteLocalizacion(string nombre_Jugador)
         {
-
-
-            var deleted = await RankingRepository.DeleteLocalizacion(new ranking { ciudad = ciudad });
+            var deleted = await RankingRepository.DeleteLocalizacion(nombre_Jugador);
             return Created("Eliminado!", deleted);
         }
     }

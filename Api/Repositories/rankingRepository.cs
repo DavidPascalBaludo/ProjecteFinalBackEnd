@@ -11,17 +11,18 @@ namespace TodoApi.Data.Repositories
     /// </summary>
     public class rankingRepository
     {
+        //Hace la conexion con los distintos Respitorios y ayuda ha hacer la conexion a la BDD
         private PosgreSQLConfig connexionString;
         public rankingRepository(PosgreSQLConfig connectionString)
         {
             this.connexionString = connectionString;
         }
-
+        //Conexion BDD
         protected NpgsqlConnection dbConnection()
         {
             return new NpgsqlConnection(connexionString.ConnectionString);
         }
-
+        //Muestra todos los rankings en la BDD
         public async Task<IEnumerable<ranking>> GetAllRanking()
         {
             var db = dbConnection();
@@ -31,28 +32,49 @@ namespace TodoApi.Data.Repositories
             return await db.QueryAsync<ranking>(sql, new { });
 
         }
-
+        //Inserta los nuevos rankings en la BDD
         public async Task<bool> InsertarRanking(ranking score)
         {
             var db = dbConnection();
 
-            var sql = @"INSERT INTO ranking (nombre_Jugador, tiempo, nivel_Guardado, ciudad) values (@nombre_Jugador, @tiempo, @nivel_Guardado, @ciudad )";
+
+            //Te dara false si el nombre del jugador no consta en la BDD
+            var sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = @nombre_Jugador";
+
+            var resultadoJugador= await db.QueryFirstOrDefaultAsync<localizacion>(sql, new {score.nombre_Jugador });
+
+            if (resultadoJugador == null) return false;
+
+            //Te dara false si la ciudad no consta en la BDD
+
+            sql = @"SELECT * FROM public.localizacion WHERE ciudad = @ciudad";
+
+            var resultadoLocalizacion = await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { score.ciudad });
+
+            if (resultadoLocalizacion == null) return false;
+
+            //Inserta los resultado si las condiciones se cumplen
+
+            sql = @"INSERT INTO ranking (nombre_Jugador, tiempo, nivel_Guardado, ciudad) values (@nombre_Jugador, @tiempo, @nivel_Guardado, @ciudad )";
 
             var result = await db.ExecuteAsync(sql, new { score.nombre_Jugador, score.tiempo, score.nivel_Guardado, score.ciudad});
             return result > 0;
         }
 
-        public async Task<bool> DeleteLocalizacion(ranking loc)
+        // Borra el ranking con el nombre del jugador existente en la BDD
+        public async Task<bool> DeleteLocalizacion(string nombre_Jugador)
         {
             var db = dbConnection();
 
-            var sql = @"
-                        DELETE FROM public.ranking
-                        WHERE ciudad = @ciudad
-                            
-                        ";
+            var sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = @nombre_Jugador";
 
-            var result = await db.ExecuteAsync(sql, new { ciudad = loc.ciudad });
+            var resultadoJugador = await db.QueryFirstOrDefaultAsync<localizacion>(sql, new {nombre_Jugador });
+
+            if (resultadoJugador == null) return false;
+
+            sql = @"DELETE FROM public.ranking WHERE nombre_Jugador = @nombre_Jugador";
+
+            var result = await db.ExecuteAsync(sql, new {nombre_Jugador});
             return result > 0;
         }
 
