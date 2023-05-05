@@ -6,14 +6,14 @@ using TodoApi.Models;
 namespace TodoApi.Data.Repositories
 {
     /// <summary>
-    /// Clase Car que contiene todos los métodos SQL querys
+    /// Clase Localizacion que contiene todos los métodos SQL querys
     /// </summary>
     public class localizacionRepository
     {
         private PosgreSQLConfig connexionString;
         public localizacionRepository(PosgreSQLConfig connectionString)
         {
-            this.connexionString = connectionString;
+            connexionString = connectionString;
         }
 
         protected NpgsqlConnection dbConnection()
@@ -56,14 +56,13 @@ namespace TodoApi.Data.Repositories
         {
             var db = dbConnection();
 
-            var sql = @"UPDATE  public.localizacion
-                        SET ciudad = @ciudad,
-                            latitud  = @latitud,
-                            longitud = @longitud,
-                        WHERE ciudad = @ciudad;
+            var sql = @"UPDATE public.localizacion
+                        SET latitud  = @latitud,
+                            longitud = @longitud
+                        WHERE ciudad = @ciudad
                         ";
 
-            var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
+            var result = await db.ExecuteAsync(sql, new { latitud = loc.latitud, longitud = loc.longitud, ciudad = loc.ciudad});
             return result > 0;
         }
 

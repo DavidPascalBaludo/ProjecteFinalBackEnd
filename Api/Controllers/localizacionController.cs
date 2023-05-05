@@ -12,7 +12,7 @@ using TodoApi.Models;
 namespace TodoApi.Controllers
 {
     /// <summary>
-    /// Controlador para Localizacions
+    /// Controlador para Localizacion
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -21,7 +21,6 @@ namespace TodoApi.Controllers
         private readonly localizacionRepository LocalizacionRepository;
         public localizacionController(localizacionRepository LocalizacionRepository)
         {
-
             this.LocalizacionRepository = LocalizacionRepository;
         }
         [HttpGet]
@@ -30,7 +29,7 @@ namespace TodoApi.Controllers
             return Ok(await LocalizacionRepository.GetAllLocalizacion());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{ciudad}")]
         public async Task<IActionResult> GetLocalizacionDetails(string ciudad)
         {
             return Ok(await LocalizacionRepository.GetLocalizacionDetails(ciudad));
@@ -76,7 +75,7 @@ namespace TodoApi.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{ciudad}")]
         public async Task<IActionResult> DeleteLocalizacion(string ciudad)
         {
 

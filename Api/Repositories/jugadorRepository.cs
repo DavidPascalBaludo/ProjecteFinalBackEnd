@@ -6,14 +6,14 @@ using TodoApi.Models;
 namespace TodoApi.Data.Repositories
 {
     /// <summary>
-    /// Clase Car que contiene todos los métodos SQL querys
+    /// Clase Jugador que contiene todos los métodos SQL querys
     /// </summary>
-    public class jugadorRespository
+    public class jugadorRepository
     {
         private PosgreSQLConfig connexionString;
-        public jugadorRespository(PosgreSQLConfig connectionString)
+        public jugadorRepository(PosgreSQLConfig connectionString)
         {
-            this.connexionString = connectionString;
+            connexionString = connectionString;
         } 
 
         protected NpgsqlConnection dbConnection()
@@ -21,66 +21,67 @@ namespace TodoApi.Data.Repositories
             return new NpgsqlConnection(connexionString.ConnectionString);
         }
 
-        public async Task<IEnumerable<localizacion>> GetAllLocalizacion()
+        public async Task<IEnumerable<jugador>> GetAllJugador()
         {
             var db = dbConnection();
 
-            var sql = @"SELECT * FROM public.localizacion";
+            var sql = @"SELECT * FROM public.jugador";
 
-            return await db.QueryAsync<localizacion>(sql, new { });
+            return await db.QueryAsync<jugador>(sql, new { });
 
         }
 
-        public async Task<localizacion> GetLocalizacionDetails(string ciudad)
-        {
-            var db = dbConnection();
+        //public async Task<jugador> GetJugadorDetails(string nombre_Jugador, string contraseña)
+        //{
+        //    var db = dbConnection();
 
-            //var sql = @"SELECT ciudad, longitud, latitud FROM public.localizacion WHERE ciudad = @Id";
-            var sql = @"SELECT ciudad, longitud, latitud FROM public.localizacion WHERE ciudad = @ciudad";
+        //    //if (this.nombre_Jugador != nombre_Jugador)
+        //    //{
 
-            return await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { ciudad = ciudad });
-        }
+        //    //}
+        //    var sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = '@nombre_Jugador' AND contraseña = '@contraseña'";
 
-        public async Task<bool> InsertLocalizacion(localizacion loc)
-        {
-            var db = dbConnection();
+        //    return await db.QueryFirstOrDefaultAsync<jugador>(sql, new { nombre_Jugador = nombre_Jugador, contraseña = contraseña});
+        //}
 
-            var sql = @"
-                        INSERT INTO public.localizacion ( ciudad, latitud, longitud ) VALUES (@ciudad, @latitud, @longitud)";
+        //public async Task<bool> InsertLocalizacion(localizacion loc)
+        //{
+        //    var db = dbConnection();
 
-            var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
-            return result > 0;
-        }
+        //    var sql = @"
+        //                INSERT INTO public.localizacion ( nombre_Jugador, contraseña, nivel_Actual, ciudad) VALUES (@ciudad, @latitud, @longitud)";
 
-        public async Task<bool> UpdateLocalizacion(localizacion loc)
-        {
-            var db = dbConnection();
+        //    var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
+        //    return result > 0;
+        //}
 
-            var sql = @"UPDATE  public.localizacion
-                        SET ciudad = @ciudad,
-                            latitud  = @latitud,
-                            longitud = @longitud,
-                        WHERE ciudad = @ciudad;
-                        ";
+        //public async Task<bool> UpdateLocalizacion(localizacion loc)
+        //{
+        //    var db = dbConnection();
 
-            var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
-            return result > 0;
-        }
+        //    var sql = @"UPDATE  public.localizacion
+        //                SET ciudad = @ciudad,
+        //                    latitud  = @latitud,
+        //                    longitud = @longitud,
+        //                WHERE ciudad = @ciudad;
+        //                ";
 
-        public async Task<bool> DeleteLocalizacion(localizacion loc)
-        {
-            var db = dbConnection();
+        //    var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
+        //    return result > 0;
+        //}
 
-            var sql = @"
-                        DELETE FROM public.localizacion
-                        WHERE ciudad = @ciudad
+        //public async Task<bool> DeleteJugador(string jugador)
+        //{
+        //    var db = dbConnection();
+
+        //    var sql = @"
+        //                DELETE FROM public.jugador
+        //                WHERE nombre_Jugador = @jugador
                             
-                        ";
+        //                ";
 
-            var result = await db.ExecuteAsync(sql, new { ciudad = loc.ciudad });
-            return result > 0;
-        }
-
-
+        //    var result = await db.ExecuteAsync(sql, new { jugador = jugador });
+        //    return result > 0;
+        //}
     }
 }

@@ -12,77 +12,75 @@ using TodoApi.Models;
 namespace TodoApi.Controllers
 {
     /// <summary>
-    /// Controlador para Localizacions
+    /// Controlador para Jugador
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class jugadorController : ControllerBase
     {
-        private readonly localizacionRepository LocalizacionRepository;
-        public jugadorController(localizacionRepository LocalizacionRepository)
+        private readonly jugadorRepository JugadorRepository;
+        public jugadorController(jugadorRepository JugadorRepository)
         {
-
-            this.LocalizacionRepository = LocalizacionRepository;
+            this.JugadorRepository = JugadorRepository;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllLocalizacion()
+        public async Task<IActionResult> GetAllJugador()
         {
-            return Ok(await LocalizacionRepository.GetAllLocalizacion());
+            return Ok(await JugadorRepository.GetAllJugador());
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetLocalizacionDetails(string ciudad)
-        {
-            return Ok(await LocalizacionRepository.GetLocalizacionDetails(ciudad));
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetJugadorDetails(string nombre_Jugador, string contraseña)
+        //{
+        //    return Ok(await JugadorRepository.GetJugadorDetails(nombre_Jugador, contraseña));
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> CreateLocalizacion([FromBody] localizacion loc)
-        {
-            if (loc == null)
-            {
-                return BadRequest();
-
-
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var created = await LocalizacionRepository.InsertLocalizacion(loc);
-            return Created("Creado!", created);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateLocalizacion([FromBody] localizacion loc)
+        //{
+        //    if (loc == null)
+        //    {
+        //        return BadRequest();
 
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateLocalizacion([FromBody] localizacion loc)
-        {
-            if (loc == null)
-            {
-                return BadRequest();
+        //    }
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var created = await JugadorRepository.InsertLocalizacion(loc);
+        //    return Created("Creado!", created);
+        //}
 
 
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var updated = await LocalizacionRepository.UpdateLocalizacion(loc);
-            return Created("Actualizado!", updated);
-        }
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateLocalizacion([FromBody] localizacion loc)
+        //{
+        //    if (loc == null)
+        //    {
+        //        return BadRequest();
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLocalizacion(string ciudad)
-        {
+        //    }
 
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var deleted = await LocalizacionRepository.DeleteLocalizacion(new localizacion { ciudad = ciudad });
-            return Created("Eliminado!", deleted);
-        }
+        //    var updated = await JugadorRepository.UpdateLocalizacion(loc);
+        //    return Created("Actualizado!", updated);
+        //}
+
+        //// Borrar nombre jugador
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteJugador(string nombre_Jugador)
+        //{
+
+        //    var deleted = await JugadorRepository.DeleteJugador(nombre_Jugador);
+        //    return Created("Eliminado!", deleted);
+        //}
     }
 }

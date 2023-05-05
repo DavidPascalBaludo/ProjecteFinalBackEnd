@@ -16,24 +16,24 @@ namespace TodoApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class localizacionController : ControllerBase
+    public class elementoController : ControllerBase
     {
-        private readonly localizacionRepository LocalizacionRepository;
-        public localizacionController(localizacionRepository LocalizacionRepository)
-        {
+        private readonly elementoRepository ElementoRepository;
+        public elementoController(elementoRepository ElementoRepository)
+        {  
 
-            this.LocalizacionRepository = LocalizacionRepository;
+            this.ElementoRepository = ElementoRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllLocalizacion()
         {
-            return Ok(await LocalizacionRepository.GetAllLocalizacion());
+            return Ok(await ElementoRepository.GetAllLocalizacion());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLocalizacionDetails(string ciudad)
         {
-            return Ok(await LocalizacionRepository.GetLocalizacionDetails(ciudad));
+            return Ok(await ElementoRepository.GetLocalizacionDetails(ciudad));
         }
 
         [HttpPost]
@@ -51,7 +51,7 @@ namespace TodoApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var created = await LocalizacionRepository.InsertLocalizacion(loc);
+            var created = await ElementoRepository.InsertLocalizacion(loc);
             return Created("Creado!", created);
         }
 
@@ -71,7 +71,7 @@ namespace TodoApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var updated = await LocalizacionRepository.UpdateLocalizacion(loc);
+            var updated = await ElementoRepository.UpdateLocalizacion(loc);
             return Created("Actualizado!", updated);
         }
 
@@ -81,9 +81,8 @@ namespace TodoApi.Controllers
         {
 
 
-            var deleted = await LocalizacionRepository.DeleteLocalizacion(new localizacion { ciudad = ciudad });
+            var deleted = await ElementoRepository.DeleteLocalizacion(new localizacion { ciudad = ciudad });
             return Created("Eliminado!", deleted);
         }
     }
 }
-
