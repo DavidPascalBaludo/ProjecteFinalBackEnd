@@ -31,57 +31,66 @@ namespace TodoApi.Data.Repositories
 
         }
 
-        //public async Task<jugador> GetJugadorDetails(string nombre_Jugador, string contraseña)
-        //{
-        //    var db = dbConnection();
+        public async Task<int> GetJugadorDetails(string nombre_Jugador, string contraseña)
+        {
+            var db = dbConnection();
 
-        //    //if (this.nombre_Jugador != nombre_Jugador)
-        //    //{
+            var sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = @nombre_Jugador AND contraseña = @contraseña";
 
-        //    //}
-        //    var sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = '@nombre_Jugador' AND contraseña = '@contraseña'";
+            var resultado = await db.QueryFirstOrDefaultAsync<jugador>(sql, new { nombre_Jugador, contraseña });
 
-        //    return await db.QueryFirstOrDefaultAsync<jugador>(sql, new { nombre_Jugador = nombre_Jugador, contraseña = contraseña});
-        //}
+            if(resultado != null) return 2;
 
-        //public async Task<bool> InsertLocalizacion(localizacion loc)
-        //{
-        //    var db = dbConnection();
+            sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = @nombre_Jugador";
 
-        //    var sql = @"
-        //                INSERT INTO public.localizacion ( nombre_Jugador, contraseña, nivel_Actual, ciudad) VALUES (@ciudad, @latitud, @longitud)";
+            resultado = await db.QueryFirstOrDefaultAsync<jugador>(sql, new { nombre_Jugador });
 
-        //    var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
-        //    return result > 0;
-        //}
+            if (resultado != null) return 1;
 
-        //public async Task<bool> UpdateLocalizacion(localizacion loc)
-        //{
-        //    var db = dbConnection();
+            return 0;
+        }
 
-        //    var sql = @"UPDATE  public.localizacion
-        //                SET ciudad = @ciudad,
-        //                    latitud  = @latitud,
-        //                    longitud = @longitud,
-        //                WHERE ciudad = @ciudad;
-        //                ";
+        public async Task<bool> InsertJugador(jugador jugador)
+        {
+            var db = dbConnection();
 
-        //    var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
-        //    return result > 0;
-        //}
+            var sql = @"SELECT * FROM public.localizacion WHERE ciudad = @ciudad";
 
-        //public async Task<bool> DeleteJugador(string jugador)
-        //{
-        //    var db = dbConnection();
+            var resultadoCiudad = await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { jugador.ciudad });
 
-        //    var sql = @"
-        //                DELETE FROM public.jugador
-        //                WHERE nombre_Jugador = @jugador
-                            
-        //                ";
+            if (resultadoCiudad == null) return false;
 
-        //    var result = await db.ExecuteAsync(sql, new { jugador = jugador });
-        //    return result > 0;
-        //}
+            sql = @" INSERT INTO public.jugador ( nombre_Jugador, contraseña, nivel_Actual, ciudad) VALUES (@nombre_Jugador, @contraseña, @nivel_Actual, @ciudad)";
+
+            var resultado = await db.ExecuteAsync(sql, new { jugador.nombre_Jugador, jugador.contraseña, jugador.nivel_Actual, jugador.ciudad });
+
+            return resultado > 0;
+        }
+
+        public async Task<bool> UpdateJugador(string nombre_Jugador, int nivel_Actual)
+        {
+            var db = dbConnection();
+
+            var sql = @"UPDATE  public.jugador
+                        SET nivel_Actual = @nivel_Actual
+                        WHERE nombre_Jugador = @nombre_Jugador;
+                        ";
+
+            var result = await db.ExecuteAsync(sql, new { nivel_Actual, nombre_Jugador });
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteJugador(string jugador)
+        {
+            var db = dbConnection();
+
+            var sql = @"
+                        DELETE FROM public.jugador
+                        WHERE nombre_Jugador = @jugador
+                        ";
+
+            var result = await db.ExecuteAsync(sql, new { jugador });
+            return result > 0;
+        }
     }
 }

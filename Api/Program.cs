@@ -17,6 +17,7 @@ builder.Services.AddSingleton(builder.Services.AddDbContext<PosgreSQLConfig>(opt
     options.UseSqlServer("WebApiDatabase")));
 
 builder.Services.AddScoped<localizacionRepository>();
+builder.Services.AddScoped<jugadorRepository>();
 builder.Services.AddControllers();
 
 builder.Services.AddMemoryCache();

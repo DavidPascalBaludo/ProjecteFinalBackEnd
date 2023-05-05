@@ -29,58 +29,54 @@ namespace TodoApi.Controllers
             return Ok(await JugadorRepository.GetAllJugador());
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetJugadorDetails(string nombre_Jugador, string contraseña)
-        //{
-        //    return Ok(await JugadorRepository.GetJugadorDetails(nombre_Jugador, contraseña));
-        //}
+        [HttpGet("{nombre_Jugador},{contraseña}")]
+        public async Task<IActionResult> GetJugadorDetails(string nombre_Jugador, string contraseña)
+        {
+            return Ok(await JugadorRepository.GetJugadorDetails(nombre_Jugador, contraseña));
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateLocalizacion([FromBody] localizacion loc)
-        //{
-        //    if (loc == null)
-        //    {
-        //        return BadRequest();
+        [HttpPost]
+        public async Task<IActionResult> CreateJugador([FromBody] jugador jugador)
+        {
+            if (jugador == null)
+            {
+                return BadRequest();
+            }
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var created = await JugadorRepository.InsertLocalizacion(loc);
-        //    return Created("Creado!", created);
-        //}
+            var created = await JugadorRepository.InsertJugador(jugador);
+            return Created("Creado!", created);
+        }
 
 
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateLocalizacion([FromBody] localizacion loc)
-        //{
-        //    if (loc == null)
-        //    {
-        //        return BadRequest();
+        [HttpPut("{nombre_Jugador},{nivel_Actual}")]
+        public async Task<IActionResult> UpdateJugador(string nombre_Jugador, int nivel_Actual)
+        {
+            if (nombre_Jugador == null || nivel_Actual < 0)
+            {
+                return BadRequest();
+            }
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    }
+            var updated = await JugadorRepository.UpdateJugador(nombre_Jugador, nivel_Actual);
+            return Created("Actualizado!", updated);
+        }
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // Borrar nombre jugador
+        [HttpDelete("{nombre_Jugador}")]
+        public async Task<IActionResult> DeleteJugador(string nombre_Jugador)
+        {
 
-        //    var updated = await JugadorRepository.UpdateLocalizacion(loc);
-        //    return Created("Actualizado!", updated);
-        //}
-
-        //// Borrar nombre jugador
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteJugador(string nombre_Jugador)
-        //{
-
-        //    var deleted = await JugadorRepository.DeleteJugador(nombre_Jugador);
-        //    return Created("Eliminado!", deleted);
-        //}
+            var deleted = await JugadorRepository.DeleteJugador(nombre_Jugador);
+            return Created("Eliminado!", deleted);
+        }
     }
 }
