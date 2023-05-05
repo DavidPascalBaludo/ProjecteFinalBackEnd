@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using Api.Models;
+using Dapper;
 using Npgsql;
 using TodoApi.Model;
 using TodoApi.Models;
@@ -21,49 +22,23 @@ namespace TodoApi.Data.Repositories
             return new NpgsqlConnection(connexionString.ConnectionString);
         }
 
-        public async Task<IEnumerable<localizacion>> GetAllLocalizacion()
+        public async Task<IEnumerable<localizacion>> GetAllRanking()
         {
             var db = dbConnection();
 
-            var sql = @"SELECT * FROM public.localizacion";
+            var sql = @"SELECT * FROM public.ranking";
 
             return await db.QueryAsync<localizacion>(sql, new { });
 
         }
 
-        public async Task<localizacion> GetLocalizacionDetails(string ciudad)
+        public async Task<bool> InsertarRanking(ranking score)
         {
             var db = dbConnection();
 
-            //var sql = @"SELECT ciudad, longitud, latitud FROM public.localizacion WHERE ciudad = @Id";
-            var sql = @"SELECT ciudad, longitud, latitud FROM public.localizacion WHERE ciudad = @ciudad";
+            var sql = @"INSERT INTO ranking (nombre_Jugador, tiempo, nivel_Guardado, ciudad) values (@nombre_Jugador, @tiempo, @nivel_Guardado, @ciudad )";
 
-            return await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { ciudad = ciudad });
-        }
-
-        public async Task<bool> InsertLocalizacion(localizacion loc)
-        {
-            var db = dbConnection();
-
-            var sql = @"
-                        INSERT INTO public.localizacion ( ciudad, latitud, longitud ) VALUES (@ciudad, @latitud, @longitud)";
-
-            var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
-            return result > 0;
-        }
-
-        public async Task<bool> UpdateLocalizacion(localizacion loc)
-        {
-            var db = dbConnection();
-
-            var sql = @"UPDATE  public.localizacion
-                        SET ciudad = @ciudad,
-                            latitud  = @latitud,
-                            longitud = @longitud,
-                        WHERE ciudad = @ciudad;
-                        ";
-
-            var result = await db.ExecuteAsync(sql, new { loc.ciudad, loc.latitud, loc.longitud });
+            var result = await db.ExecuteAsync(sql, new { score.nombre_Jugador, score.tiempo, score.nivel_Guardado, score.ciudad});
             return result > 0;
         }
 
