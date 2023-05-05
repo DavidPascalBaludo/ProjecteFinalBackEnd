@@ -20,6 +20,7 @@ builder.Services.AddScoped<localizacionRepository>();
 builder.Services.AddScoped<jugadorRepository>();
 builder.Services.AddScoped<rankingRepository>();
 builder.Services.AddScoped<nivelRepository>();
+builder.Services.AddScoped<elementoRepository>();
 builder.Services.AddControllers();
 
 builder.Services.AddMemoryCache();
