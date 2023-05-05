@@ -19,6 +19,7 @@ namespace TodoApi.Controllers
     [ApiController]
     public class rankingController : ControllerBase
     {
+        //Conexion con el repositorio donde tengo guardados todos los metodos.
         private readonly rankingRepository RankingRepository;
         public rankingController(rankingRepository RankingRepository)
         {

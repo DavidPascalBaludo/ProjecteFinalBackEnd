@@ -19,6 +19,7 @@ builder.Services.AddSingleton(builder.Services.AddDbContext<PosgreSQLConfig>(opt
 builder.Services.AddScoped<localizacionRepository>();
 builder.Services.AddScoped<jugadorRepository>();
 builder.Services.AddScoped<rankingRepository>();
+builder.Services.AddScoped<nivelRepository>();
 builder.Services.AddControllers();
 
 builder.Services.AddMemoryCache();
