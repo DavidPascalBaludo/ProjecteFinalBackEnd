@@ -47,7 +47,7 @@ namespace TodoApi.Data.Repositories
             var db = dbConnection();
 
             var sql = @"
-                        DELETE FROM public.localizacion
+                        DELETE FROM public.ranking
                         WHERE ciudad = @ciudad
                             
                         ";

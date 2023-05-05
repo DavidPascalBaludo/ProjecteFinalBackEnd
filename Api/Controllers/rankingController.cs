@@ -19,15 +19,15 @@ namespace TodoApi.Controllers
     [ApiController]
     public class rankingController : ControllerBase
     {
-        private readonly rankingRepository rankingRepository;
-        public rankingController(rankingRepository LocalizacionRepository)
+        private readonly rankingRepository RankingRepository;
+        public rankingController(rankingRepository RankingRepository)
         {
-            this.rankingRepository = LocalizacionRepository;
+            this.RankingRepository = RankingRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllRanking()
         {
-            return Ok(await rankingRepository.GetAllRanking());
+            return Ok(await RankingRepository.GetAllRanking());
         }
 
 
@@ -44,7 +44,7 @@ namespace TodoApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var created = await rankingRepository.InsertarRanking(score);
+            var created = await RankingRepository.InsertarRanking(score);
             return Created("Creado!", created);
         }
 
@@ -56,7 +56,7 @@ namespace TodoApi.Controllers
         {
 
 
-            var deleted = await rankingRepository.DeleteLocalizacion(new localizacion { ciudad = ciudad });
+            var deleted = await RankingRepository.DeleteLocalizacion(new localizacion { ciudad = ciudad });
             return Created("Eliminado!", deleted);
         }
     }
