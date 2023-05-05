@@ -22,13 +22,13 @@ namespace TodoApi.Data.Repositories
             return new NpgsqlConnection(connexionString.ConnectionString);
         }
 
-        public async Task<IEnumerable<localizacion>> GetAllRanking()
+        public async Task<IEnumerable<ranking>> GetAllRanking()
         {
             var db = dbConnection();
 
             var sql = @"SELECT * FROM public.ranking";
 
-            return await db.QueryAsync<localizacion>(sql, new { });
+            return await db.QueryAsync<ranking>(sql, new { });
 
         }
 
@@ -42,7 +42,7 @@ namespace TodoApi.Data.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteLocalizacion(localizacion loc)
+        public async Task<bool> DeleteLocalizacion(ranking loc)
         {
             var db = dbConnection();
 

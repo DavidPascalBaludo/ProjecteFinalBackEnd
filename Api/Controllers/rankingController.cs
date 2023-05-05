@@ -56,7 +56,7 @@ namespace TodoApi.Controllers
         {
 
 
-            var deleted = await RankingRepository.DeleteLocalizacion(new localizacion { ciudad = ciudad });
+            var deleted = await RankingRepository.DeleteLocalizacion(new ranking { ciudad = ciudad });
             return Created("Eliminado!", deleted);
         }
     }
