@@ -12,7 +12,7 @@ using TodoApi.Models;
 namespace TodoApi.Controllers
 {
     /// <summary>
-    /// Controlador para Localizacions
+    /// Controlador para elementos
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -25,7 +25,8 @@ namespace TodoApi.Controllers
             this.ElementoRepository = ElementoRepository;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllLocalizacion()
+        //Extrae todos los elemenntos de elemento y los muestra
+        public async Task<IActionResult> GetAllElemento()
         {
             return Ok(await ElementoRepository.GetAllElemento());
         }

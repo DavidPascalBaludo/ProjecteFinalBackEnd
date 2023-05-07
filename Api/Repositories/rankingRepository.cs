@@ -53,7 +53,7 @@ namespace TodoApi.Data.Repositories
         }
 
         // Borra el ranking con el nombre del jugador existente en la BDD
-        public async Task<bool> DeleteLocalizacion(string nombre_Jugador)
+        public async Task<bool> DeleteRanking(string nombre_Jugador)
         {
             var db = dbConnection();
 

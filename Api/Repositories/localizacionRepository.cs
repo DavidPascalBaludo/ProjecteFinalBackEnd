@@ -34,7 +34,6 @@ namespace TodoApi.Data.Repositories
         {
             var db = dbConnection();
 
-            //var sql = @"SELECT ciudad, longitud, latitud FROM public.localizacion WHERE ciudad = @Id";
             var sql = @"SELECT ciudad, longitud, latitud FROM public.localizacion WHERE ciudad = @ciudad";
 
             return await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { ciudad = ciudad });

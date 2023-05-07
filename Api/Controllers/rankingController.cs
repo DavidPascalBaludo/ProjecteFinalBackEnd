@@ -33,9 +33,9 @@ namespace TodoApi.Controllers
             return Ok(await RankingRepository.GetAllRanking());
         }
 
-        //Http que hace inserts
+        //Http que hace inserts segun el nombre el tiempo el nivel y la ciudad
         [HttpPost("{nombre_Jugador},{tiempo},{nivel_Guardado},{ciudad}")]
-        public async Task<IActionResult> CreateLocalizacion(string nombre_Jugador, int tiempo, int nivel_Guardado, string ciudad)
+        public async Task<IActionResult> InsertarRanking(string nombre_Jugador, int tiempo, int nivel_Guardado, string ciudad)
         {
             if (nombre_Jugador == null)
             {
@@ -52,12 +52,12 @@ namespace TodoApi.Controllers
         }
 
 
-        //Http que borra
+        //Http que borra por el nombre del jugador
 
         [HttpDelete("{nombre_Jugador}")]
-        public async Task<IActionResult> DeleteLocalizacion(string nombre_Jugador)
+        public async Task<IActionResult> DeleteRanking(string nombre_Jugador)
         {
-            var deleted = await RankingRepository.DeleteLocalizacion(nombre_Jugador);
+            var deleted = await RankingRepository.DeleteRanking(nombre_Jugador);
             return Created("Eliminado!", deleted);
         }
     }
