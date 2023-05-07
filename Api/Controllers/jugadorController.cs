@@ -42,10 +42,11 @@ namespace TodoApi.Controllers
             return Ok(await JugadorRepository.GetJugadorDetails(nombre_Jugador, contraseña));
         }
         //Metodo que inserta jugadores 
-        [HttpPost("{nombre_Jugador},{contraseña},{ciudad}")]
-        public async Task<IActionResult> CreateJugador(string nombre_Jugador, string contraseña, string ciudad)
+
+        [HttpPost]
+        public async Task<IActionResult> CreateJugador([FromBody] jugador jugador)
         {
-            if (nombre_Jugador == null)
+            if (jugador == null)
             {
                 return BadRequest();
             }
@@ -55,7 +56,7 @@ namespace TodoApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var created = await JugadorRepository.InsertJugador(nombre_Jugador, contraseña, ciudad);
+            var created = await JugadorRepository.InsertJugador(jugador);
             return Created("Creado!", created);
         }
 

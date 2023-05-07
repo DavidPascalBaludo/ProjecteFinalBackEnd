@@ -35,5 +35,54 @@ namespace TodoApi.Controllers
         {
             return Ok(await LocalizacionRepository.GetLocalizacionDetails(ciudad));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateLocalizacion([FromBody] localizacion loc)
+        {
+            if (loc == null)
+            {
+                return BadRequest();
+
+
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var created = await LocalizacionRepository.InsertLocalizacion(loc);
+            return Created("Creado!", created);
+        }
+
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateLocalizacion([FromBody] localizacion loc)
+        {
+            if (loc == null)
+            {
+                return BadRequest();
+
+
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updated = await LocalizacionRepository.UpdateLocalizacion(loc);
+            return Created("Actualizado!", updated);
+        }
+
+
+        [HttpDelete("{ciudad}")]
+        public async Task<IActionResult> DeleteLocalizacion(string ciudad)
+        {
+
+
+            var deleted = await LocalizacionRepository.DeleteLocalizacion(new localizacion { ciudad = ciudad });
+            return Created("Eliminado!", deleted);
+        }
     }
 }

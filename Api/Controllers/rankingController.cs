@@ -34,10 +34,10 @@ namespace TodoApi.Controllers
         }
 
         //Http que hace inserts segun el nombre el tiempo el nivel y la ciudad
-        [HttpPost("{nombre_Jugador},{tiempo},{nivel_Guardado},{ciudad}")]
-        public async Task<IActionResult> InsertarRanking(string nombre_Jugador, int tiempo, int nivel_Guardado, string ciudad)
+        [HttpPost]
+        public async Task<IActionResult> CreateLocalizacion(ranking score)
         {
-            if (nombre_Jugador == null)
+            if (score == null)
             {
                 return BadRequest();
             }
@@ -47,7 +47,7 @@ namespace TodoApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var created = await RankingRepository.InsertarRanking(nombre_Jugador, tiempo, nivel_Guardado, ciudad);
+            var created = await RankingRepository.InsertarRanking(score);
             return Created("Creado!", created);
         }
 

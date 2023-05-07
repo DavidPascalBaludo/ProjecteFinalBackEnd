@@ -32,23 +32,31 @@ namespace TodoApi.Data.Repositories
             return await db.QueryAsync<ranking>(sql, new { });
 
         }
-        //Inserta los nuevos rankings en la BDD
-        public async Task<bool> InsertarRanking(string nombre_Jugador, int tiempo, int nivel_Guardado, string ciudad)
+        public async Task<bool> InsertarRanking(ranking score)
         {
             var db = dbConnection();
+
 
             //Te dara false si el nombre del jugador no consta en la BDD
             var sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = @nombre_Jugador";
 
-            var resultadoJugador= await db.QueryFirstOrDefaultAsync<localizacion>(sql, new {nombre_Jugador });
+            var resultadoJugador = await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { score.nombre_Jugador });
 
             if (resultadoJugador == null) return false;
+
+            //Te dara false si la ciudad no consta en la BDD
+
+            sql = @"SELECT * FROM public.localizacion WHERE ciudad = @ciudad";
+
+            var resultadoLocalizacion = await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { score.ciudad });
+
+            if (resultadoLocalizacion == null) return false;
 
             //Inserta los resultado si las condiciones se cumplen
 
             sql = @"INSERT INTO ranking (nombre_Jugador, tiempo, nivel_Guardado, ciudad) values (@nombre_Jugador, @tiempo, @nivel_Guardado, @ciudad )";
 
-            var result = await db.ExecuteAsync(sql, new { nombre_Jugador, tiempo, nivel_Guardado, ciudad});
+            var result = await db.ExecuteAsync(sql, new { score.nombre_Jugador, score.tiempo, score.nivel_Guardado, score.ciudad });
             return result > 0;
         }
 

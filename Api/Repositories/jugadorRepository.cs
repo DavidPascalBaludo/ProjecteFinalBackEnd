@@ -60,13 +60,20 @@ namespace TodoApi.Data.Repositories
             return 0;
         }
         //Insert<r nuveos jugadores en la BDD
-        public async Task<bool> InsertJugador(string nombre_Jugador, string contraseña, string ciudad)
+
+        public async Task<bool> InsertJugador(jugador jugador)
         {
             var db = dbConnection();
 
-             var sql = @" INSERT INTO public.jugador ( nombre_Jugador, contraseña, nivel_Actual, ciudad) VALUES (@nombre_Jugador, @contraseña, 1, @ciudad)";
+            var sql = @"SELECT * FROM public.localizacion WHERE ciudad = @ciudad";
 
-            var resultado = await db.ExecuteAsync(sql, new { nombre_Jugador, contraseña, ciudad });
+            var resultadoCiudad = await db.QueryFirstOrDefaultAsync<localizacion>(sql, new { jugador.ciudad });
+
+            if (resultadoCiudad == null) return false;
+
+            sql = @" INSERT INTO public.jugador ( nombre_Jugador, contraseña, nivel_Actual, ciudad) VALUES (@nombre_Jugador, @contraseña, @nivel_Actual, @ciudad)";
+
+            var resultado = await db.ExecuteAsync(sql, new { jugador.nombre_Jugador, jugador.contraseña, jugador.nivel_Actual, jugador.ciudad });
 
             return resultado > 0;
         }
