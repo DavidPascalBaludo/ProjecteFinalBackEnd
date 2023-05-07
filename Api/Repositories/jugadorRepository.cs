@@ -20,7 +20,7 @@ namespace TodoApi.Data.Repositories
         {
             return new NpgsqlConnection(connexionString.ConnectionString);
         }
-
+        //Coger todos los jugadores
         public async Task<IEnumerable<jugador>> GetAllJugador()
         {
             var db = dbConnection();
@@ -30,7 +30,7 @@ namespace TodoApi.Data.Repositories
             return await db.QueryAsync<jugador>(sql, new { });
 
         }
-
+        //Coger un jugador Especifico
         public async Task<jugador> GetJugadorDetailsAll(string nombre_Jugador)
         {
             var db = dbConnection();
@@ -40,7 +40,7 @@ namespace TodoApi.Data.Repositories
 
             return await db.QueryFirstOrDefaultAsync<jugador>(sql, new { nombre_Jugador = nombre_Jugador });
         }
-
+        //Mirar si ese jugador existe 
         public async Task<int> GetJugadorDetails(string nombre_Jugador, string contraseña)
         {
             var db = dbConnection();
@@ -59,7 +59,7 @@ namespace TodoApi.Data.Repositories
 
             return 0;
         }
-
+        //Insert<r nuveos jugadores en la BDD
         public async Task<bool> InsertJugador(string nombre_Jugador, string contraseña, string ciudad)
         {
             var db = dbConnection();
@@ -70,7 +70,7 @@ namespace TodoApi.Data.Repositories
 
             return resultado > 0;
         }
-
+        //Modificar a un jugador
         public async Task<bool> UpdateJugador(string nombre_Jugador, int nivel_Actual)
         {
             var db = dbConnection();
@@ -83,7 +83,7 @@ namespace TodoApi.Data.Repositories
             var result = await db.ExecuteAsync(sql, new { nivel_Actual, nombre_Jugador });
             return result > 0;
         }
-
+        //Borrar jugador
         public async Task<bool> DeleteJugador(string jugador)
         {
             var db = dbConnection();

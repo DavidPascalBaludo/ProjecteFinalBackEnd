@@ -13,7 +13,7 @@ using TodoApi.Models;
 namespace TodoApi.Controllers
 {
     /// <summary>
-    /// Controlador para Localizacion
+    /// Controlador para Ranking
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]

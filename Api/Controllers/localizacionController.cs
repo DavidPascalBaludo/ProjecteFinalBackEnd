@@ -23,6 +23,7 @@ namespace TodoApi.Controllers
         {
             this.LocalizacionRepository = LocalizacionRepository;
         }
+        //Devuelve todos los valores de Localizacion
         [HttpGet]
         public async Task<IActionResult> GetAllLocalizacion()
         {

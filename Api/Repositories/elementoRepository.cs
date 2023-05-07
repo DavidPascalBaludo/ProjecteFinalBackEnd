@@ -6,7 +6,7 @@ using TodoApi.Models;
 namespace TodoApi.Data.Repositories
 {
     /// <summary>
-    /// Clase Car que contiene todos los métodos SQL querys
+    /// Clase Elmentoss que contiene todos los métodos SQL querys
     /// </summary>
     public class elementoRepository
     {

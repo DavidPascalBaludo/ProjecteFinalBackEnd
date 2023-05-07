@@ -23,24 +23,25 @@ namespace TodoApi.Controllers
         {
             this.JugadorRepository = JugadorRepository;
         }
+        //Metodo que muestra todos los jugadoes con su nivel 
         [HttpGet]
         public async Task<IActionResult> GetAllJugador()
         {
             return Ok(await JugadorRepository.GetAllJugador());
         }
-
+        //Metodo qu muestra solo un jugador por su nombre 
         [HttpGet("{nombre_Jugador}")]
         public async Task<IActionResult> GetJugadorDetailsAll(string nombre_Jugador)
         {
             return Ok(await JugadorRepository.GetJugadorDetailsAll(nombre_Jugador));
         }
-
+        //Metodo que muestra si el jugador con la contraseña y el nombre existe devolviendo 0 en caso de que no exista el nombre 1 si la contraseña es incorrecta y 2 si es correcta ambas
         [HttpGet("{nombre_Jugador},{contraseña}")]
         public async Task<IActionResult> GetJugadorDetails(string nombre_Jugador, string contraseña)
         {
             return Ok(await JugadorRepository.GetJugadorDetails(nombre_Jugador, contraseña));
         }
-
+        //Metodo que inserta jugadores 
         [HttpPost("{nombre_Jugador},{contraseña},{ciudad}")]
         public async Task<IActionResult> CreateJugador(string nombre_Jugador, string contraseña, string ciudad)
         {
@@ -58,7 +59,7 @@ namespace TodoApi.Controllers
             return Created("Creado!", created);
         }
 
-
+        //Metodo que actualiza jugadores
         [HttpPut("{nombre_Jugador},{nivel_Actual}")]
         public async Task<IActionResult> UpdateJugador(string nombre_Jugador, int nivel_Actual)
         {
