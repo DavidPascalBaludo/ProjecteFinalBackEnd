@@ -97,7 +97,7 @@ namespace TodoApi.Data.Repositories
 
             var sql = @"
                         DELETE FROM public.jugador
-                        WHERE nombre_Jugador = @jugador
+                        WHERE nombre_Jugador = @jugador CASCADE
                         ";
 
             var result = await db.ExecuteAsync(sql, new { jugador });
