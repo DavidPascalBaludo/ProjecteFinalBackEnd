@@ -31,14 +31,13 @@ namespace TodoApi.Data.Repositories
 
         }
         //Coger un jugador Especifico
-        public async Task<jugador> GetJugadorDetailsAll(string nombre_Jugador)
+        public async Task<object> GetJugadorDetailsAll(string nombre_Jugador)
         {
             var db = dbConnection();
-
      
-            var sql = @"SELECT * FROM public.jugador WHERE nombre_Jugador = @nombre_Jugador";
+            var sql = @"SELECT nombre_Jugador, nivel_Actual, ciudad FROM public.jugador WHERE nombre_Jugador = @nombre_Jugador";
 
-            return await db.QueryFirstOrDefaultAsync<jugador>(sql, new { nombre_Jugador = nombre_Jugador });
+            return await db.QueryFirstOrDefaultAsync(sql, new { nombre_Jugador = nombre_Jugador });
         }
         //Mirar si ese jugador existe 
         public async Task<int> GetJugadorDetails(string nombre_Jugador, string contraseña)

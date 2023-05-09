@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:7053"
+      "applicationUrl": "http://rolu.sytes.net:7053"
     },
     "https": {
       "commandName": "Project",
@@ -18,7 +18,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:7053"
+      "applicationUrl": "http://rolu.sytes.net:7053"
     },
     "IIS Express": {
       "commandName": "IISExpress",

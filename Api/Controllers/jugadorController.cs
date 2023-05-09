@@ -19,9 +19,11 @@ namespace TodoApi.Controllers
     public class jugadorController : ControllerBase
     {
         private readonly jugadorRepository JugadorRepository;
-        public jugadorController(jugadorRepository JugadorRepository)
+        private readonly rankingRepository RankingRepository;
+        public jugadorController(jugadorRepository JugadorRepository, rankingRepository RankingRepository)
         {
             this.JugadorRepository = JugadorRepository;
+            this.RankingRepository = RankingRepository;
         }
         //Metodo que muestra todos los jugadoes con su nivel 
         [HttpGet]
@@ -82,6 +84,7 @@ namespace TodoApi.Controllers
         [HttpDelete("{nombre_Jugador}")]
         public async Task<IActionResult> DeleteJugador(string nombre_Jugador)
         {
+            await RankingRepository.DeleteRanking(nombre_Jugador);
 
             var deleted = await JugadorRepository.DeleteJugador(nombre_Jugador);
             return Created("Eliminado!", deleted);
