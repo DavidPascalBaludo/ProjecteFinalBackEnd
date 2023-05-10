@@ -27,7 +27,7 @@ namespace TodoApi.Data.Repositories
         {
             var db = dbConnection();
 
-            var sql = @"SELECT * FROM public.ranking";
+            var sql = @"SELECT * FROM public.ranking WHERE nombre_Jugador <= 20";
 
             return await db.QueryAsync<ranking>(sql, new { });
 
